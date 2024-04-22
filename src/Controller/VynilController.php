@@ -9,31 +9,31 @@ use function Symfony\Component\String\u;
 
 class VynilController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/', name: 'app_homepage')]
     public function homepage()
     {
         $tracks = [
-            ['song' => 'Test', 'artist' => 'Test'],
-            ['song' => 'Test', 'artist' => 'Test'],
-            ['song' => 'Test', 'artist' => 'Test'],
-            ['song' => 'Test', 'artist' => 'Test'],
-            ['song' => 'Test', 'artist' => 'Test'],
+            ['song' => 'Gangsta\'s Paradise', 'artist' => 'Coolio'],
+            ['song' => 'Waterfalls', 'artist' => 'TLC'],
+            ['song' => 'Creep', 'artist' => 'Radiohead'],
+            ['song' => 'Kiss from a Rose', 'artist' => 'Seal'],
+            ['song' => 'On Bended Knee', 'artist' => 'Boyz II Men'],
+            ['song' => 'Fantasy', 'artist' => 'Mariah Carey'],
         ];
+
         return $this->render('vinyl/homepage.html.twig', [
             'title' => 'PB and Jams',
             'tracks' => $tracks
         ]);
     }
 
-    #[Route('/browse/{slug}')]
+    #[Route('/browse/{slug}', name: 'app_browse')]
     public function browse($slug = null)
     {
-        if ($slug){
 
-            $title = "Genres" . u(str_replace('-', ' ', $slug))->title(true);
-        } else {
-            $title = "All Genres";
-        }
-        return new Response($title);
+        $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
+        return $this->render('vinyl/browse.html.twig', [
+            'genre' => $genre
+        ]);
     }
 }
